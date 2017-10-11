@@ -6,7 +6,7 @@
 #    By: npineau <npineau@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/20 12:15:41 by npineau           #+#    #+#              #
-#    Updated: 2017/10/11 10:56:57 by npineau          ###   ########.fr        #
+#    Updated: 2017/10/11 12:06:49 by npineau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,9 @@ DIRINC		:=	inc
 
 ### FILES: SOURCES ###
 
-include $(DIRPQ)/src.mk
-include $(DIRTST)/src.mk
+include $(DIRSRC)/src.mk
+#include $(DIRPQ)/src.mk
+#include $(DIRTST)/src.mk
 
 ### FILES: PATHS ###
 
