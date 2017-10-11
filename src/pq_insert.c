@@ -6,14 +6,14 @@
 /*   By: npineau <npineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 12:18:50 by npineau           #+#    #+#             */
-/*   Updated: 2017/10/11 13:31:36 by npineau          ###   ########.fr       */
+/*   Updated: 2017/10/11 13:45:47 by npineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "inc/pq.h"
 
-void	*mmemcpy(const void *in, void *out, size_t len)
+static void	*mmemcpy(const void *in, void *out, size_t len)
 {
 	const unsigned char	*source;
 	unsigned char		*destination;
@@ -30,7 +30,7 @@ void	*mmemcpy(const void *in, void *out, size_t len)
 	return (out);
 }
 
-void	swap(void *l, void *r, size_t len)
+static void	swap(void *l, void *r, size_t len)
 {
 	unsigned char	*a;
 	unsigned char	*b;
@@ -49,7 +49,7 @@ void	swap(void *l, void *r, size_t len)
 	}
 }
 
-void	siftUp(t_pq *pq, size_t c)
+static void	siftUp(t_pq *pq, size_t c)
 {
 	size_t			p;
 	unsigned char	*elems;
