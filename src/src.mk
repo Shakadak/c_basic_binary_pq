@@ -1,4 +1,5 @@
-PQ	:=	pq_new.c
+PQ	:=	pq_insert.c \
+		pq_new.c
 
 OBJ	:= $(OBJ) $(PQ:.c=.o)
 
