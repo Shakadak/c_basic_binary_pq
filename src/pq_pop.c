@@ -6,14 +6,14 @@
 /*   By: npineau <npineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 13:37:11 by npineau           #+#    #+#             */
-/*   Updated: 2017/10/11 13:58:23 by npineau          ###   ########.fr       */
+/*   Updated: 2017/10/14 13:34:48 by npineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "inc/pq.h"
 
-static void	*mmemcpy(const void *in, void *out, size_t len)
+static void	*mmemcpy(void *out, const void *in, size_t len)
 {
 	const unsigned char	*source;
 	unsigned char		*destination;
@@ -49,7 +49,51 @@ static void	swap(void *l, void *r, size_t len)
 	}
 }
 
+static void	siftDown(t_pq *pq, size_t parent)
+{
+	size_t			child;
+	size_t			left;
+	size_t			right;
+	unsigned char	*elems;
+
+	elems = (unsigned char *)pq->elems;
+	while (parent < pq->used)
+	{
+		left = (parent << 1) + 1;
+		right = left + 1;
+		child = parent;
+		if (left < pq->used)
+			if (pq->cmp(elems + pq->size * left, elems + pq->size * parent) < 0)
+				child = left;
+		if (right < pq->used)
+			if (pq->cmp(elems + pq->size * right, elems + pq->size * parent) < 0)
+				child = right;
+		if (child == parent)
+			break;
+		swap(elems + pq->size * child, elems + pq->size * parent, pq->size);
+		parent = child;
+	}
+}
+
 int			pq_pop(t_pq *pq, void **out)
 {
+	void	*tmp;
+
+	if (pq->used == 0)
+	{
+		return (0);
+	}
+	mmemcpy(*out, (unsigned char*)pq->elems, pq->size);
+	pq->used -= 1;
+	mmemcpy((unsigned char*)pq->elems, (unsigned char*)pq->elems + pq->used * pq->size, pq->size);
+	siftDown(pq, 0);
+	if (pq->used < pq->capacity / 4 && pq->capacity / 2 > 16)
+	{
+		tmp = malloc(pq->size * pq->capacity / 2);
+		mmemcpy(tmp, pq->elems, pq->size * pq->used);
+		free(pq->elems);
+		pq->elems = tmp;
+		pq->capacity /= 2;
+	}
 	return (1);
 }
