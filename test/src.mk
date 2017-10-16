@@ -1,0 +1,1 @@
+TSRC	:=	main.c

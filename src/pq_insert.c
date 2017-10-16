@@ -6,7 +6,7 @@
 /*   By: npineau <npineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 12:18:50 by npineau           #+#    #+#             */
-/*   Updated: 2017/10/16 10:12:46 by npineau          ###   ########.fr       */
+/*   Updated: 2017/10/16 12:46:51 by npineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,10 @@ static void	sift_up(t_pq *pq, size_t c)
 			swap(elems + pq->size * c, elems + pq->size * p, pq->size);
 			c = p;
 		}
+		else
+		{
+			break ;
+		}
 	}
 }
 
@@ -78,8 +82,8 @@ t_pq		*pq_insert(void *pv, t_pq *pq)
 		pq->elems = tmp;
 		pq->capacity = pq->capacity == 0 ? 16 : pq->capacity * 2;
 	}
-	pq->used += 1;
 	mmemcpy((unsigned char*)pq->elems + pq->used * pq->size, pv, pq->size);
-	sift_up(pq, pq->used - 1);
+	sift_up(pq, pq->used);
+	pq->used += 1;
 	return (pq);
 }

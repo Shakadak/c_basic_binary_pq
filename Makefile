@@ -6,11 +6,12 @@
 #    By: npineau <npineau@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/20 12:15:41 by npineau           #+#    #+#              #
-#    Updated: 2017/10/11 12:06:49 by npineau          ###   ########.fr        #
+#    Updated: 2017/10/16 12:27:59 by npineau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		:=	libpq.a
+NAME		:=	pq
+FILENAME	:=	lib$(NAME).a
 
 ### DIRECTORIES ###
 
@@ -28,7 +29,7 @@ DIRINC		:=	inc
 
 include $(DIRSRC)/src.mk
 #include $(DIRPQ)/src.mk
-#include $(DIRTST)/src.mk
+include $(DIRTST)/src.mk
 
 ### FILES: PATHS ###
 
@@ -50,20 +51,20 @@ I_FLAG		:=	-I $(DIRINC) -I .
 O_FLAG		:=	-O3
 C_OPT		=	-o $@ -c $< $(I_FLAG)
 COMPIL		=	$(CC) $(C_FLAG) $(O_FLAG) $(C_OPT)
-L_FLAG		:= -L $(DIRLIB) -lkv
+L_FLAG		:= -L $(DIRLIB) -lpq
 
 ### RULES ###
 
-all: $(DIRLIB)/$(NAME)
+all: $(DIRLIB)/$(FILENAME)
 
-test: $(DIRLIB)/$(NAME)
+test: $(DIRLIB)/$(FILENAME)
 	$(CC) $(C_FLAG) $(I_FLAG) -I test $(L_FLAG) -o $(DIRTST)/test.tst $(TESTSRC)
 	./$(DIRTST)/test.tst
 	
 
 ### RULES: ARCHIVE ###
 
-$(DIRLIB)/$(NAME): $(POBJ) |$(DIRLIB)
+$(DIRLIB)/$(FILENAME): $(POBJ) |$(DIRLIB)
 	$(AR_EXEC)
 	ranlib $@
 
