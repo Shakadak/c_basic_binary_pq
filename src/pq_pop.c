@@ -6,7 +6,7 @@
 /*   By: npineau <npineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 13:37:11 by npineau           #+#    #+#             */
-/*   Updated: 2017/10/14 13:34:48 by npineau          ###   ########.fr       */
+/*   Updated: 2017/10/16 10:15:29 by npineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	swap(void *l, void *r, size_t len)
 	}
 }
 
-static void	siftDown(t_pq *pq, size_t parent)
+static void	sift_down(t_pq *pq, size_t parent)
 {
 	size_t			child;
 	size_t			left;
@@ -63,13 +63,15 @@ static void	siftDown(t_pq *pq, size_t parent)
 		right = left + 1;
 		child = parent;
 		if (left < pq->used)
-			if (pq->cmp(elems + pq->size * left, elems + pq->size * parent) < 0)
+			if (pq->cmp(elems + pq->size * left,
+						elems + pq->size * parent) < 0)
 				child = left;
 		if (right < pq->used)
-			if (pq->cmp(elems + pq->size * right, elems + pq->size * parent) < 0)
+			if (pq->cmp(elems + pq->size * right,
+						elems + pq->size * parent) < 0)
 				child = right;
 		if (child == parent)
-			break;
+			break ;
 		swap(elems + pq->size * child, elems + pq->size * parent, pq->size);
 		parent = child;
 	}
@@ -85,8 +87,9 @@ int			pq_pop(t_pq *pq, void **out)
 	}
 	mmemcpy(*out, (unsigned char*)pq->elems, pq->size);
 	pq->used -= 1;
-	mmemcpy((unsigned char*)pq->elems, (unsigned char*)pq->elems + pq->used * pq->size, pq->size);
-	siftDown(pq, 0);
+	mmemcpy((unsigned char*)pq->elems,
+			(unsigned char*)pq->elems + pq->used * pq->size, pq->size);
+	sift_down(pq, 0);
 	if (pq->used < pq->capacity / 4 && pq->capacity / 2 > 16)
 	{
 		tmp = malloc(pq->size * pq->capacity / 2);

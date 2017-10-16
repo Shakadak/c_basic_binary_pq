@@ -6,7 +6,7 @@
 /*   By: npineau <npineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 12:18:50 by npineau           #+#    #+#             */
-/*   Updated: 2017/10/14 13:33:13 by npineau          ###   ########.fr       */
+/*   Updated: 2017/10/16 10:12:46 by npineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	swap(void *l, void *r, size_t len)
 	}
 }
 
-static void	siftUp(t_pq *pq, size_t c)
+static void	sift_up(t_pq *pq, size_t c)
 {
 	size_t			p;
 	unsigned char	*elems;
@@ -66,21 +66,20 @@ static void	siftUp(t_pq *pq, size_t c)
 	}
 }
 
-
-t_pq	*pq_insert(void *pv, t_pq *pq)
+t_pq		*pq_insert(void *pv, t_pq *pq)
 {
 	void	*tmp;
 
 	if (pq->used == pq->capacity)
 	{
-		tmp = malloc(pq->size * pq->capacity * 2);
+		tmp = malloc(pq->size * (pq->capacity == 0 ? 16 : pq->capacity * 2));
 		mmemcpy(tmp, pq->elems, pq->size * pq->used);
 		free(pq->elems);
 		pq->elems = tmp;
-		pq->capacity *= 2;
+		pq->capacity = pq->capacity == 0 ? 16 : pq->capacity * 2;
 	}
 	pq->used += 1;
 	mmemcpy((unsigned char*)pq->elems + pq->used * pq->size, pv, pq->size);
-	siftUp(pq, pq->used - 1);
+	sift_up(pq, pq->used - 1);
 	return (pq);
 }
