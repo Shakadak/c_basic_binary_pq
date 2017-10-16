@@ -6,7 +6,7 @@
 /*   By: npineau <npineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 13:37:11 by npineau           #+#    #+#             */
-/*   Updated: 2017/10/16 10:15:29 by npineau          ###   ########.fr       */
+/*   Updated: 2017/10/16 15:56:28 by npineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ static void	sift_down(t_pq *pq, size_t parent)
 		child = parent;
 		if (left < pq->used)
 			if (pq->cmp(elems + pq->size * left,
-						elems + pq->size * parent) < 0)
+						elems + pq->size * child) < 0)
 				child = left;
 		if (right < pq->used)
 			if (pq->cmp(elems + pq->size * right,
-						elems + pq->size * parent) < 0)
+						elems + pq->size * child) < 0)
 				child = right;
 		if (child == parent)
 			break ;
@@ -77,7 +77,7 @@ static void	sift_down(t_pq *pq, size_t parent)
 	}
 }
 
-int			pq_pop(t_pq *pq, void **out)
+int			pq_pop(t_pq *pq, void *out)
 {
 	void	*tmp;
 
@@ -85,9 +85,9 @@ int			pq_pop(t_pq *pq, void **out)
 	{
 		return (0);
 	}
-	mmemcpy(*out, (unsigned char*)pq->elems, pq->size);
+	mmemcpy(out, pq->elems, pq->size);
 	pq->used -= 1;
-	mmemcpy((unsigned char*)pq->elems,
+	mmemcpy(pq->elems,
 			(unsigned char*)pq->elems + pq->used * pq->size, pq->size);
 	sift_down(pq, 0);
 	if (pq->used < pq->capacity / 4 && pq->capacity / 2 > 16)

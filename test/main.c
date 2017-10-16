@@ -6,7 +6,7 @@
 /*   By: npineau <npineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/16 11:51:32 by npineau           #+#    #+#             */
-/*   Updated: 2017/10/16 12:49:33 by npineau          ###   ########.fr       */
+/*   Updated: 2017/10/16 15:52:42 by npineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,16 @@ int		main(void)
 	pq = pq_new(sizeof(int), (t_pq_cmp)ord, unit);
 	while (i < TABSIZE)
 	{
-		printf("%d", tab[i]);
 		pq_insert(&tab[i], &pq);
 		i += 1;
 		print_int_array(pq.elems, pq.used);
 	}
-	print_int_array(pq.elems, pq.used);
+	i = 0;
+	while (i < TABSIZE)
+	{
+		pq_pop(&pq, &tab[i]);
+		i += 1;
+		print_int_array(tab, i);
+	}
 	return (0);
 }
